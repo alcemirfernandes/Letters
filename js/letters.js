@@ -1,6 +1,8 @@
+/* letter app functions */
 define( ['jquery'], 
 function ($) {
 
+	/* animate the letter expanding */
 	function expandLetter( key, expand ) {
 		var	id = String.fromCharCode( key ).toLowerCase();
 
