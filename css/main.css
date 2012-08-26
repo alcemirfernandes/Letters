@@ -135,7 +135,7 @@ body {
 		text-transform:uppercase;
 		background-color:#f5f5f5;
 		-webkit-transition-property: top, left, width, height, font, font-size, line-height, box-shadow;
-		-webkit-transition-duration:100ms;
+		-webkit-transition-duration:50ms;
 		-webkit-transition-timing-function: ease-out;
 	}
 
@@ -166,7 +166,7 @@ body {
 	#y { top: 200px; left: 200px; }
 	#z { top: 250px; left:   0px; }
 
-	.letter.expanded {
+	.letter.expand {
 		top:75px !important;
 		left:75px !important;
 		width:100px;
