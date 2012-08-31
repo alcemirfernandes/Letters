@@ -1,9 +1,24 @@
-require( ['jquery', './letters'], 
-function ( $, 		letters ) {
+requirejs.config({
+	baseUrl: 'js/',
+	paths: {
+		'jquery': 'vendor/jquery',
+	},
+	shim: {
+       'vendor/underscore': {
+            exports: '_'
+        },
+        'vendor/backbone': {
+            deps: ['vendor/underscore', 'jquery'],
+            exports: 'Backbone'
+        }
+    },
+	waitSeconds: 4,
+});
 
-	$(window).on( {
-		'keydown' : function (evnt) { letters.expand( evnt.which, true ) },
-		'keyup' : function (evnt) { letters.expand( evnt.which, false ) }
-	} );
+require(['letters'], function ( Letters ) {
+	var letters = new Letters({
+		el: $('#letters'),
+		raw: letterList
+	});
 
-} );
+});
