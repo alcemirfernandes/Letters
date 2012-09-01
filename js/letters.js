@@ -6,7 +6,6 @@ function ( require ) {
 		Backbone = require('vendor/backbone')
 	  ;
 
-
 /* * * * *
  * Models 
  */
@@ -30,7 +29,6 @@ var Letters = Backbone.Collection.extend({
 		} )
 	}
 });
-_.extend( Letters, Backbone.Events );
 
 
 /* * * * 
@@ -38,18 +36,14 @@ _.extend( Letters, Backbone.Events );
  */
 var LetterView = Backbone.View.extend({
 	className: 'letter',
+	events: {
+		'typed': 'expand'
+	},
 	initialize: function () { 
 		this.id = this.model.id;
 	},
-	expand: function ( enlarge ) {
-/*		var	id = String.fromCharCode( key ).toLowerCase();
-
-		if( key <= 90 && key >= 65 ) {
-			console.log($( '#' + id ) );
-			$el.toggleClass( 'expand', enlarge );
-		}
-*/
-		this.$el.toggleClass( 'expand', expand )
+	expand: function ( big ) {
+		this.$el.toggleClass( 'expand', big )
 	},
 	render: function () {
 		this.$el.attr( 'id', this.model.id );
@@ -82,17 +76,18 @@ var LettersAppView = Backbone.View.extend({
 
 		/* bind keyboard controls */
 		$(window).on( {
-			'keyup':   function ( e ) { self.expandLetter( e.which, false ) },
-			'keydown': function ( e ) { self.expandLetter( e.which, true ) }
+			'keyup':   function ( e ) { self.handleKey( e.which, false ) },
+			'keydown': function ( e ) { self.handleKey( e.which, true ) }
 		} );
 	},
-	expandLetter: function ( key, big ) {
-		var	alphabet = this.collection,
-			id   	 = String.fromCharCode( key ).toLowerCase();
+	handleKey: function ( key, big ) {
+		var	alphabet    = this.collection,
+			id          = String.fromCharCode( key ).toLowerCase()
+			whichLetter = {};
 
 		if( key <= 90 && key >= 65 ) {
-console.log( 'view', alphabet.where( {id:id} )[0].view );
-			alphabet.where( {id:id} )[0].view.expand( big );
+			whichLetter = alphabet.where( {id:id} )[0];
+			whichLetter.view.$el.trigger( 'typed', big );
 		}
 	}
 });
