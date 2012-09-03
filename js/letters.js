@@ -1,21 +1,15 @@
 /* letter app functions */
 define ( [ 'require', 'jquery', 'vendor/underscore', 'vendor/backbone' ], 
 function ( require ) {
-	var $ = require('jquery');
-		_ = require('vendor/underscore'),
-		Backbone = require('vendor/backbone')
+	var $ = require('jquery')
+	  ,	_ = require('vendor/underscore')
+	  ,	Backbone = require('vendor/backbone')
 	  ;
 
 /* * * * *
  * Models 
  */
-var Letter = Backbone.Model.extend({ 
-/*	initialize: function ( pass ) {
-		console.log( 'pass', pass );
-		console.log( 'this.start', this.start );
-		console.log( 'this.id', this.id );
-	}
-*/});
+var Letter = Backbone.Model.extend({});
 
 
 /* * * * * * * 
@@ -34,6 +28,9 @@ var Letters = Backbone.Collection.extend({
 /* * * * 
  * Views
  */
+
+
+// visual view of a letter
 var LetterView = Backbone.View.extend({
 	className: 'letter',
 	events: {
@@ -58,13 +55,14 @@ var LettersAppView = Backbone.View.extend({
 	initialize: function ( options ) {
 		// set up models and views
 		var alphabet = new Letters(),
-			self = this;
+			self     = this;
 
+		// initialise
 		_.each ( 
 			options.raw, 
 			function ( rawLetter, indx, all ) {
 				var letterModel = new Letter( rawLetter ),
-					letterView = new LetterView( {model:letterModel} );
+					letterView  = new LetterView( {model:letterModel} );
 
 				letterModel.view = letterView;
 				self.$el.append( letterView.render().$el )
@@ -72,7 +70,18 @@ var LettersAppView = Backbone.View.extend({
 			}
 		);
 
-		this.collection = alphabet;
+		self.collection = alphabet;
+
+		// set up the audio
+		self.audioPlayer = self.make( 'audio', {
+			'id'         : 'myFirstSonyAudioObject',
+			'src'        : 'thereisnospoon.mp3',
+			'style'      : "display:none;",
+			'preload'    : 'true',
+			'autobuffer' : 'true'
+		});
+
+		self.$el.append( self.audioPlayer );
 
 		/* bind keyboard controls */
 		$(window).on( {
@@ -80,6 +89,15 @@ var LettersAppView = Backbone.View.extend({
 			'keydown': function ( e ) { self.handleKey( e.which, true ) }
 		} );
 	},
+	
+	events: {
+		'start #myFirstSonyAudioObject' : 
+	},
+
+	audioPlaying: function () { console.log( 'audio playing' );},
+	
+	audioStopped: function () { console.log( 'audio stopped' );},
+
 	handleKey: function ( key, big ) {
 		var	alphabet    = this.collection,
 			id          = String.fromCharCode( key ).toLowerCase()
