@@ -7,3 +7,8 @@ It's a web application, built with HTML, CSS and JavaScript. It uses [Require][]
 
 [Require]: http://requirejs.org/
 [Backbone]: http://backbonejs.org/
+
+## Changelog
+- 2012-09-02 re-worked into a simple MVC structure, using Backbone
+- 2012-08-30-ish wrapped it up in RequireJS. There's a main.js to start the app and the core functionality is now a `define()`'d module
+- 2012-08-27 created a basic layout and letter-expansion animation
