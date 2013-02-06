@@ -18,8 +18,8 @@ var Letter = Backbone.Model.extend({});
 var Letters = Backbone.Collection.extend({
 	model: Letter,
 	initialize: function () {
-		this.on( 'add', function () {
-			console.log( 'added a new model' );
+		this.on( 'add', function ( model ) {
+			console.log( 'added a new model', model.get( 'id' ) );
 		} )
 	}
 });
@@ -91,7 +91,6 @@ var LettersAppView = Backbone.View.extend({
 	},
 	
 	events: {
-		'start #myFirstSonyAudioObject' : 
 	},
 
 	audioPlaying: function () { console.log( 'audio playing' );},
